@@ -8,12 +8,13 @@ Comunication via Telegram
 
 Project is made to adress the problem of low engagement during exams.
 
-## Lab 02: data preparation (steps 1-3)
+## Lab 02: preparation and first model run
 
 This stage loads the chosen classroom-image sample, checks images and YOLO
-annotations, and reserves a fixed evaluation sample. The planned model is
-COCO-pretrained YOLOv8m, without additional training. Only data preparation is
-implemented here; there is no model run or measured model result yet.
+annotations, and reserves a fixed evaluation sample. Running without `--predict`
+only prepares data. The optional `--predict` flag applies COCO-pretrained
+YOLOv8m without additional training and saves images with detected people.
+A quality metric has not been implemented yet.
 
 The original brief below describes exam-response logs. This first visual
 experiment uses classroom still images as a possible input to the same
@@ -37,6 +38,23 @@ After the data is in place, the repeatable preparation command is:
 .\.venv\Scripts\python.exe src/baseline_pipeline.py
 ```
 
+To apply the pretrained model to the same sample:
+
+```powershell
+.\.venv\Scripts\python.exe src/baseline_pipeline.py --predict
+```
+
+The first prediction run downloads official `yolov8m.pt` weights (about 50 MiB)
+to `models/`. Predictions run on the CPU with image size 640, confidence 0.25
+and NMS IoU 0.7, keeping only the COCO `person` class. The 20 resulting images
+with predicted boxes are saved in `runs/yolov8m/`. Open them in an image viewer
+to inspect the detections. Repeating the command uses the same images, weights,
+settings and output folder. Weights and generated images stay outside Git.
+
+YOLOv8m detects people, not the dataset's eight engagement/action classes.
+These visual results do not establish engagement or detection accuracy.
+No training, parameter search or metric calculation is performed.
+
 On macOS/Linux, create the environment with `python3 -m venv .venv` and use
 `.venv/bin/python` in place of `.\.venv\Scripts\python.exe` above.
 
@@ -55,8 +73,8 @@ metadata kept in Git; images, label files, archives and environments are ignored
 To check reproducibility, a teammate should use a fresh clone and environment,
 follow these instructions and confirm that the same 20 files pass validation.
 This teammate check has not yet been recorded. The remaining Lab 02 steps are
-to apply the baseline, calculate a metric and automatically write
-`reports/baseline_metrics.json`; they are outside this preparation stage.
+to calculate a suitable metric and automatically write
+`reports/baseline_metrics.json`; that file remains an empty placeholder here.
 
 # Project brief
 

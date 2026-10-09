@@ -1,4 +1,4 @@
-"""Lab 02, steps 1-3: load, validate and reserve a small evaluation sample."""
+"""Prepare the Lab 02 sample and optionally run pretrained YOLOv8m on images."""
 
 import argparse
 import hashlib
@@ -160,9 +160,47 @@ def reserve_evaluation(sample, records):
         MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
 
+def predict_people(sample):
+    """Save visual person detections; no engagement classification or metric."""
+    from ultralytics import YOLO
+
+    weights = ROOT / "models" / "yolov8m.pt"
+    weights.parent.mkdir(parents=True, exist_ok=True)
+    model = YOLO(str(weights))  # Ultralytics downloads its official weights on first run.
+    if model.names.get(0) != "person":
+        raise ValueError("Expected the COCO-pretrained YOLOv8m person class at index 0.")
+
+    results = model.predict(
+        source=str(EVALUATION_DIR / "images"),
+        classes=[0],
+        conf=0.25,
+        iou=0.7,
+        imgsz=640,
+        device="cpu",
+        batch=1,
+        stream=True,
+        save=True,
+        project=str(ROOT / "runs"),
+        name="yolov8m",
+        exist_ok=True,
+        verbose=True,
+    )
+    image_count = 0
+    detection_count = 0
+    for result in results:
+        image_count += 1
+        detection_count += len(result.boxes)
+    if image_count != len(sample):
+        raise ValueError(f"Expected {len(sample)} prediction images, got {image_count}.")
+    print(f"4. Processed {image_count} images; found {detection_count} person detections.", flush=True)
+    print("Images with predicted boxes: runs/yolov8m/", flush=True)
+    print("These detections do not measure student engagement or model accuracy.", flush=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--download", action="store_true", help="Download and extract the public Kaggle v1 dataset first.")
+    parser.add_argument("--predict", action="store_true", help="Run pretrained YOLOv8m on the fixed sample and save images with person boxes.")
     args = parser.parse_args()
     try:
         if args.download:
@@ -174,8 +212,10 @@ def main():
         reserve_evaluation(sample, records)
         print("3. Created/loaded 20 evaluation-only images in data/evaluation/.", flush=True)
         print("Fixed selection and file hashes: data/evaluation_manifest.json", flush=True)
-    except (OSError, ValueError, zipfile.BadZipFile) as error:
-        print(f"Data preparation failed: {error}", file=sys.stderr)
+        if args.predict:
+            predict_people(sample)
+    except (OSError, ValueError, ImportError, RuntimeError, zipfile.BadZipFile) as error:
+        print(f"Pipeline failed: {error}", file=sys.stderr)
         return 1
     return 0
 

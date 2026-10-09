@@ -10,4 +10,4 @@
 
 - The archive contains 481 JPG images and 481 matching YOLO label files. IDs are `0 handrise`, `1 look_forward`, `2 read`, `3 sleep`, `4 stand`, `5 turn_head`, `6 using_device`, `7 write`. Preserve these labels. The supplied YAML has unusable train/valid/test paths; use the folders above.
 - The pipeline checks image decoding, RGB input, matching files and five-column YOLO labels with valid class IDs and finite normalized boxes.
-- Raw files and copied files in `data/evaluation/` are not committed. `data/evaluation_manifest.json` records the fixed sample and checksums. This stage prepares data only; it produces no model predictions or metric.
+- Raw files and copied files in `data/evaluation/` are not committed. `data/evaluation_manifest.json` records the fixed sample and checksums. The optional `--predict` run saves person-detection images in `runs/yolov8m/`, also outside Git; it preserves the original labels and calculates no quality metric.
