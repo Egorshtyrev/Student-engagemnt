@@ -8,6 +8,56 @@ Comunication via Telegram
 
 Project is made to adress the problem of low engagement during exams.
 
+## Lab 02: data preparation (steps 1-3)
+
+This stage loads the chosen classroom-image sample, checks images and YOLO
+annotations, and reserves a fixed evaluation sample. The planned model is
+COCO-pretrained YOLOv8m, without additional training. Only data preparation is
+implemented here; there is no model run or measured model result yet.
+
+The original brief below describes exam-response logs. This first visual
+experiment uses classroom still images as a possible input to the same
+engagement project; they are not exam logs or evidence of exam engagement.
+
+### Setup and run
+
+Tested with Python 3.12 on Windows. From the repository root:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe src/baseline_pipeline.py --download
+```
+
+The first run downloads dataset version 1 (about 123 MiB). Manual download and
+placement instructions are in [data/README.md](data/README.md).
+After the data is in place, the repeatable preparation command is:
+
+```powershell
+.\.venv\Scripts\python.exe src/baseline_pipeline.py
+```
+
+On macOS/Linux, create the environment with `python3 -m venv .venv` and use
+`.venv/bin/python` in place of `.\.venv\Scripts\python.exe` above.
+
+The command:
+
+1. Loads 20 image/label pairs selected in advance with seed 42.
+2. Checks matching JPG/TXT files, image decoding and RGB dimensions, and
+   five-column YOLO labels with class IDs 0-7 and normalized coordinates.
+3. Creates or reloads `data/evaluation/` and verifies the fixed filenames and
+   SHA-256 hashes against `data/evaluation_manifest.json`.
+
+The [evaluation strategy](docs/split_strategy.md) explains why there is no
+training split and records the sample limitations. The manifest is small
+metadata kept in Git; images, label files, archives and environments are ignored.
+
+To check reproducibility, a teammate should use a fresh clone and environment,
+follow these instructions and confirm that the same 20 files pass validation.
+This teammate check has not yet been recorded. The remaining Lab 02 steps are
+to apply the baseline, calculate a metric and automatically write
+`reports/baseline_metrics.json`; they are outside this preparation stage.
+
 # Project brief
 
 ## User and situation

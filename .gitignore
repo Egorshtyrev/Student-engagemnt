@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.py[cod]
+data/raw/
+data/evaluation/
+models/
+*.pt
+runs/
+.env
+.env.*
+kaggle.json
+*.zip

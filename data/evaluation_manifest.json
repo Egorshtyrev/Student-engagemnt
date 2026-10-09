@@ -1,0 +1,220 @@
+{
+  "dataset": "mustafaxgm/classroom-student-engagement-dataset",
+  "dataset_version": 1,
+  "seed": 42,
+  "sample_size": 20,
+  "role": "evaluation_only",
+  "classes": [
+    "handrise",
+    "look_forward",
+    "read",
+    "sleep",
+    "stand",
+    "turn_head",
+    "using_device",
+    "write"
+  ],
+  "evaluation_dir": "data/evaluation",
+  "samples": [
+    {
+      "image": "mustafa-seminar-stand_mp4-0004_jpg.rf.lzOcvz6vC1hv40oI4oG6.jpg",
+      "label": "mustafa-seminar-stand_mp4-0004_jpg.rf.lzOcvz6vC1hv40oI4oG6.txt",
+      "image_sha256": "6d1df2bf548a1019d9285fc89345fbec3044f154326b28abfb6a32122f40add4",
+      "label_sha256": "5ed88eee2cc268f783558962707dfefffb370d9b9d96fbf750cac6f311f73438",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 1
+    },
+    {
+      "image": "mustafa-seminar-stand_mp4-0007_jpg.rf.JW4tpzVINqyvFIJCDSRI.jpg",
+      "label": "mustafa-seminar-stand_mp4-0007_jpg.rf.JW4tpzVINqyvFIJCDSRI.txt",
+      "image_sha256": "6af16e0a4d7e9eb9237198c3520f3d88577810bbf3e63aba2af24b6d85423b06",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 0
+    },
+    {
+      "image": "mustafa-seminar-stand_mp4-0008_jpg.rf.WdNeWbHHnZdmcdIp8P4I.jpg",
+      "label": "mustafa-seminar-stand_mp4-0008_jpg.rf.WdNeWbHHnZdmcdIp8P4I.txt",
+      "image_sha256": "bb9003c6b6ebe9a2d7137326df5df7858b66db147332d8366b27f491f011fc76",
+      "label_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 0
+    },
+    {
+      "image": "owais-class-1_mp4-0026_jpg.rf.6hc629ZfzBGzCqdzG8sQ.jpg",
+      "label": "owais-class-1_mp4-0026_jpg.rf.6hc629ZfzBGzCqdzG8sQ.txt",
+      "image_sha256": "427622a6b800b9c5f0a7e180f0594a21e7c7a588c73aac799c1c0043960d8aad",
+      "label_sha256": "7868a99bcc1b6ce65a2d03d2cddd2542d1154d44816b31ab344920439ab982b8",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 11
+    },
+    {
+      "image": "owais-class-1_mp4-0029_jpg.rf.JDr0esGRsXw91xrRLhB8.jpg",
+      "label": "owais-class-1_mp4-0029_jpg.rf.JDr0esGRsXw91xrRLhB8.txt",
+      "image_sha256": "1b200646aef80c15340775420d32dff1c20e094079df001d471257b5f57cd689",
+      "label_sha256": "b151f2f10714cf26cd16e0fa9c550a3c97fcaf1fd589e181d6446741b80203e3",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 9
+    },
+    {
+      "image": "owais-class-1_mp4-0034_jpg.rf.NIQf4uBNmrc5U7PLUeFU.jpg",
+      "label": "owais-class-1_mp4-0034_jpg.rf.NIQf4uBNmrc5U7PLUeFU.txt",
+      "image_sha256": "32941635493a882f450ca8c9e01925297acf7a1ae402846e6ce571effc2d6b59",
+      "label_sha256": "520fd156fdd5c96992a92c2fffdb98446e50abbe2dfa3edfd9edf3c97415c126",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 10
+    },
+    {
+      "image": "owais-class-1_mp4-0039_jpg.rf.JLg3qElsq7EHmwxDwdSt.jpg",
+      "label": "owais-class-1_mp4-0039_jpg.rf.JLg3qElsq7EHmwxDwdSt.txt",
+      "image_sha256": "7e707fc562248c5d29f617f107f5278f51537e5903881af772f8dae0920ae141",
+      "label_sha256": "b6f72e27890c1acc5a31356e949531c85bc5ca1cd1e797f5a6833acc18e9f364",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 10
+    },
+    {
+      "image": "owais-class-1_mp4-0053_jpg.rf.fBNIKJuorgvp2YY6bolK.jpg",
+      "label": "owais-class-1_mp4-0053_jpg.rf.fBNIKJuorgvp2YY6bolK.txt",
+      "image_sha256": "f98d9485f9a47b37cb24f5c9b4bfebaf065b0e7bbd8c5d5a7716200875ae8700",
+      "label_sha256": "18aa6d58e0c1fdecd443f1df53b583537cbd67e1b158977d83a35aba9301b8f1",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 11
+    },
+    {
+      "image": "owais-class-1_mp4-0094_jpg.rf.9uyeNjJ5Jr77Y29fSLGB.jpg",
+      "label": "owais-class-1_mp4-0094_jpg.rf.9uyeNjJ5Jr77Y29fSLGB.txt",
+      "image_sha256": "94c0d08f5b8ae46867e47385b01d10df90096c52d5785153fd08227d39b2e2b8",
+      "label_sha256": "348c514391295a3c2ead7eb77f0fb870de854485364d26eef9a92864c5a0875c",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 10
+    },
+    {
+      "image": "owais-class-1_mp4-0097_jpg.rf.gY4qSVMuvd5SvYmCxlsT.jpg",
+      "label": "owais-class-1_mp4-0097_jpg.rf.gY4qSVMuvd5SvYmCxlsT.txt",
+      "image_sha256": "9339dc45a64e081e3886d6f640974356e0a7e37883220bb4698178bbf3cb51cc",
+      "label_sha256": "2e7358711bb7559cf1acf375c65176dab222b350d60727cbc0e239710ab0ace1",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 11
+    },
+    {
+      "image": "owais-class-1_mp4-0108_jpg.rf.bDrlQGYOP3X2XVLlTg4p.jpg",
+      "label": "owais-class-1_mp4-0108_jpg.rf.bDrlQGYOP3X2XVLlTg4p.txt",
+      "image_sha256": "ddf9e5fd2c9d7bcd5d9438d33999dcd9124f9cc551447ff121802e64625bd82d",
+      "label_sha256": "c01577957cbfc3e58f1ea0c095310db25c0a49321579464a50e01244599423aa",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 11
+    },
+    {
+      "image": "owais-class-2_mp4-0006_jpg.rf.UPqnmvaMLTFIFntEyflq.jpg",
+      "label": "owais-class-2_mp4-0006_jpg.rf.UPqnmvaMLTFIFntEyflq.txt",
+      "image_sha256": "15d4aac2ef119c6561cc4d25a91ee34b2a449f21e841fe93307868b606f0b071",
+      "label_sha256": "682d046b7cbe1899725fbb5f65c33cfa61e8896b769e2dc4ccf35363f8a9b031",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 14
+    },
+    {
+      "image": "owais-class-3_mp4-0050_jpg.rf.Bq0wiIotfjPRiETPn9jQ.jpg",
+      "label": "owais-class-3_mp4-0050_jpg.rf.Bq0wiIotfjPRiETPn9jQ.txt",
+      "image_sha256": "48e70aeb7f72d7eb318bfb3fd33f2ae4db7e33244c85dd4030000541e5569e82",
+      "label_sha256": "8e5d4d14f68175c15a0788bd69188845ac9d353a8cd623ae6184b0d0dbd01014",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 14
+    },
+    {
+      "image": "taimoor-class-2_mp4-0064_jpg.rf.4IwBQ0HRzShmM7lIqrr0.jpg",
+      "label": "taimoor-class-2_mp4-0064_jpg.rf.4IwBQ0HRzShmM7lIqrr0.txt",
+      "image_sha256": "d9dd6d644d58652fb4dd42a139352042bcd2ac7946480e9e8d913f5ade7a6a52",
+      "label_sha256": "a3fcf2dca506f7be7999bd987b60e19812af00a4f9d5c4def3e5bad753f862c0",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 6
+    },
+    {
+      "image": "taimoor-class-2_mp4-0087_jpg.rf.XV8zh0UJ4TNXjLdJ5voy.jpg",
+      "label": "taimoor-class-2_mp4-0087_jpg.rf.XV8zh0UJ4TNXjLdJ5voy.txt",
+      "image_sha256": "d1c558a1d933b3758582dde77cb88054287a91be36b9e7008cd6b52806932456",
+      "label_sha256": "5806a72e7bbbf1d3a5e8f300ebc3f0f54858e187423fe22feae1e5e87471e8e8",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 6
+    },
+    {
+      "image": "taimoor-class-2_mp4-0113_jpg.rf.V1BJMr1FGUNMPFKEowNr.jpg",
+      "label": "taimoor-class-2_mp4-0113_jpg.rf.V1BJMr1FGUNMPFKEowNr.txt",
+      "image_sha256": "fe0b1665f673f639dda9ada93e8abdfda18329c3b835ac6777f4fbc09f5a536d",
+      "label_sha256": "c48888bd505e7bca87da18ce15b81881fa3a965f27fb4d9230c672360d4b8f8e",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 5
+    },
+    {
+      "image": "taimoor-class-3_mp4-0011_jpg.rf.UY04tlEtyCJsy4tVCsok.jpg",
+      "label": "taimoor-class-3_mp4-0011_jpg.rf.UY04tlEtyCJsy4tVCsok.txt",
+      "image_sha256": "ba13f7465c46b6ae9be8a4c612c07d3095700c4f7c6ab5d9b5d301699471c19d",
+      "label_sha256": "5b69a28430b682ea790057e9da5fec6dc4474b6482adc0f848ae28a5e96b1589",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 6
+    },
+    {
+      "image": "taimoor-class-5_mp4-0003_jpg.rf.pFi0tBw9xUfN8KQo7Iey.jpg",
+      "label": "taimoor-class-5_mp4-0003_jpg.rf.pFi0tBw9xUfN8KQo7Iey.txt",
+      "image_sha256": "02c0c243930c0411d832a6c0539e88c6017753d772faad451ea296db00b7f9cb",
+      "label_sha256": "0d9c24af3dbd58408f2a5ba3dbe7646336466108e187b2b224f52f455fa2366d",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 8
+    },
+    {
+      "image": "taimoor-class-5_mp4-0005_jpg.rf.9nMz2MuTZHAQ9vTMGEVj.jpg",
+      "label": "taimoor-class-5_mp4-0005_jpg.rf.9nMz2MuTZHAQ9vTMGEVj.txt",
+      "image_sha256": "249418977be76da8c4ba9ac26e24231a156c45e5c80a0298c8e13aff862dd0de",
+      "label_sha256": "177d0823e7d2a1cf43fc3494d5872a99ee364a3c00953a6f5d506711484fd5a3",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 8
+    },
+    {
+      "image": "taimoor-zaeem-1_mp4-0060_jpg.rf.CkE88S5fSGxQCwzi8J2a.jpg",
+      "label": "taimoor-zaeem-1_mp4-0060_jpg.rf.CkE88S5fSGxQCwzi8J2a.txt",
+      "image_sha256": "76ad510b35cb633325bce05fddcfec63046a66fd25867b36029dcfd6ecae0f71",
+      "label_sha256": "5b732f43e22c7d35395123db93e3379d6f9a590ed054529d566a547ac5622a3e",
+      "width": 1920,
+      "height": 1080,
+      "channels": 3,
+      "annotations": 15
+    }
+  ]
+}
