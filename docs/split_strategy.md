@@ -1,6 +1,7 @@
 # Evaluation sample
 
-- YOLOv8m uses COCO-pretrained weights without additional training, so no local training split is needed. The optional `--predict` run applies those weights only; it does not calculate a metric or classify engagement.
-- Before any inference or tuning, sort the 481 image paths, select 20 with `random.Random(42).sample`, and sort the selection. Reserve all 20 for evaluation; preserve the eight original annotation classes.
-- Commit `data/evaluation_manifest.json` with selected filenames, image/label SHA-256 checksums and selection parameters. Later runs load that manifest and verify the same source files. Copy the selected images and labels into `data/evaluation/`; these data files remain outside Git.
-- Selected filenames indicate eight source-video groups, with multiple frames from some groups. This small classroom sample does not represent exam footage. COCO overlap is unconfirmed. Do not tune on it; future training and evaluation must keep source-video groups separate.
+- We use pretrained YOLOv8m without additional training, so no training split is needed.
+- We reserved 20 of the 481 images for evaluation. They were selected once with seed 42. The other 461 images are unused in this run.
+- The list is saved in `data/evaluation_manifest.json`. Each run uses the same 20 images and keeps the original labels.
+- We do not use this sample to train the model or change its settings.
+- Limitation: the sample is small and contains similar frames from the same videos. Classroom images may differ from real exam conditions. If we train later, frames from one video must stay together in one split.
