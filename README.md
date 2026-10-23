@@ -10,13 +10,12 @@ Project is made to adress the problem of low engagement during exams.
 
 See the [project brief](docs/project_brief.md) for the user, goal, data plan and next actions.
 
-## Lab 02: preparation and first model run
+## Lab 02: repeatable person-detection baseline
 
-This stage loads the chosen classroom-image sample, checks images and YOLO
-annotations, and reserves a fixed evaluation sample. Running without `--predict`
-only prepares data. The optional `--predict` flag applies COCO-pretrained
-YOLOv8m without additional training and saves images with detected people.
-A quality metric has not been implemented yet.
+The pipeline loads and checks the classroom-image sample, applies pretrained
+YOLOv8m, calculates annotated-person recall, and automatically saves
+[reports/baseline_metrics.json](reports/baseline_metrics.json).
+The model is used without additional training.
 
 This first visual experiment uses classroom still images. It does not yet
 test the system in exam conditions.
@@ -35,16 +34,16 @@ The first run downloads dataset version 1 (about 123 MiB). For manual download,
 extract the archive so the 481 JPG images are in `data/raw/dataset/images/`
 and matching TXT labels are in `data/raw/dataset/labels/`. Dataset background
 is in [data/README.md](data/README.md).
-After the data is in place, the repeatable preparation command is:
+After the data is in place, the repeatable baseline command is:
 
 ```powershell
 .\.venv\Scripts\python.exe src/baseline_pipeline.py
 ```
 
-To apply the pretrained model to the same sample:
+To prepare the data without running the model:
 
 ```powershell
-.\.venv\Scripts\python.exe src/baseline_pipeline.py --predict
+.\.venv\Scripts\python.exe src/baseline_pipeline.py --prepare-only
 ```
 
 The first prediction run downloads official `yolov8m.pt` weights (about 50 MiB)
@@ -54,9 +53,16 @@ with predicted boxes are saved in `runs/yolov8m/`. Open them in an image viewer
 to inspect the detections. Repeating the command uses the same images, weights,
 settings and output folder. Weights and generated images stay outside Git.
 
-YOLOv8m detects people, not the dataset's eight engagement/action classes.
-These visual results do not establish engagement or detection accuracy.
-No training, parameter search or metric calculation is performed.
+The primary metric is annotated-person recall at IoU 0.5: matched annotation
+boxes divided by all annotation boxes. For this localization check, the eight
+action classes are treated as person locations; original labels stay unchanged.
+Predictions are matched in descending confidence order, and each prediction and
+annotation can be used only once. Matching IoU 0.5 is separate from NMS IoU 0.7.
+
+This is an initial person-localization result. The model does not recognize
+engagement or the eight action classes. The sample is small, frames may be
+similar, and person annotations may be incomplete or cover only upper bodies.
+No training or parameter search is performed.
 
 On macOS/Linux, create the environment with `python3 -m venv .venv` and use
 `.venv/bin/python` in place of `.\.venv\Scripts\python.exe` above.
@@ -68,13 +74,16 @@ The command:
    five-column YOLO labels with class IDs 0-7 and normalized coordinates.
 3. Creates or reloads `data/evaluation/` and verifies the fixed filenames and
    SHA-256 hashes against `data/evaluation_manifest.json`.
+4. Applies COCO-pretrained YOLOv8m to the 20 evaluation images.
+5. Calculates annotated-person recall at IoU 0.5.
+6. Writes the measured metric, counts, settings and limitation to
+   `reports/baseline_metrics.json` automatically.
 
 The [evaluation strategy](docs/split_strategy.md) explains why there is no
 training split and records the sample limitations. The manifest is small
 metadata kept in Git; images, label files, archives and environments are ignored.
 
 To check reproducibility, a teammate should use a fresh clone and environment,
-follow these instructions and confirm that the same 20 files pass validation.
-This teammate check has not yet been recorded. The remaining Lab 02 steps are
-to calculate a suitable metric and automatically write
-`reports/baseline_metrics.json`; that file remains an empty placeholder here.
+follow these instructions and confirm that the same 20 files pass validation
+and `reports/baseline_metrics.json` is created or updated. This teammate check
+has not yet been recorded; the saved report contains the measured local run.

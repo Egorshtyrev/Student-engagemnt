@@ -1,0 +1,33 @@
+{
+  "experiment": "yolov8m_person_localization_baseline_v1",
+  "data": "mustafaxgm/classroom-student-engagement-dataset, version 1; 481 source images",
+  "evaluation": "20 fixed evaluation images, seed 42; no local training or tuning",
+  "model": "COCO-pretrained YOLOv8m, person class only, no additional training",
+  "metric": {
+    "name": "annotated_person_recall_at_iou_0_5",
+    "value": 0.710843
+  },
+  "counts": {
+    "evaluation_images": 20,
+    "annotated_people": 166,
+    "matched_annotations": 118,
+    "missed_annotations": 48,
+    "person_predictions": 190
+  },
+  "settings": {
+    "confidence": 0.25,
+    "nms_iou": 0.7,
+    "match_iou": 0.5,
+    "imgsz": 640,
+    "device": "cpu"
+  },
+  "evaluation_method": "All eight action classes treated as person locations only; confidence-descending one-to-one IoU matching",
+  "environment": {
+    "python": "3.12.0",
+    "torch": "2.9.1+cpu",
+    "ultralytics": "8.4.174"
+  },
+  "weights_sha256": "5d4a90cdc7a21786cc59cd19778e9eafff836df9e2da32524737c7ee6efe4fe5",
+  "manifest_sha256": "28a3abcf50f3d76d1b226776944d146801f28a96c99d31539350a93e7cad3f48",
+  "limitation": "Only 20 correlated classroom frames; person annotations may be incomplete and cover upper bodies. This measures localization of annotated people, not engagement or action recognition, and does not establish performance on exams. Overlap with COCO training data is unknown."
+}

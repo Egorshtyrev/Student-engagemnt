@@ -1,4 +1,4 @@
-"""Prepare the Lab 02 sample and optionally run pretrained YOLOv8m on images."""
+"""Run the repeatable Lab 02 person-detection baseline and save its metric."""
 
 import argparse
 import hashlib
@@ -24,6 +24,7 @@ CLASS_NAMES = [
     "handrise", "look_forward", "read", "sleep",
     "stand", "turn_head", "using_device", "write",
 ]
+MATCH_IOU = 0.5
 DATA_DIR = ROOT / "data" / "raw" / "dataset"
 EVALUATION_DIR = ROOT / "data" / "evaluation"
 MANIFEST = ROOT / "data" / "evaluation_manifest.json"
@@ -160,8 +161,50 @@ def reserve_evaluation(sample, records):
         MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
 
+def box_iou(first, second):
+    """Intersection over union of two original-image xyxy boxes."""
+    overlap_width = max(0.0, min(first[2], second[2]) - max(first[0], second[0]))
+    overlap_height = max(0.0, min(first[3], second[3]) - max(first[1], second[1]))
+    intersection = overlap_width * overlap_height
+    first_area = max(0.0, first[2] - first[0]) * max(0.0, first[3] - first[1])
+    second_area = max(0.0, second[2] - second[0]) * max(0.0, second[3] - second[1])
+    union = first_area + second_area - intersection
+    return intersection / union if union > 0 else 0.0
+
+
+def count_matches(predictions, ground_truth):
+    """Match confidence-sorted predictions to the best available annotation."""
+    available = set(range(len(ground_truth)))
+    matched = 0
+    for confidence, prediction in sorted(predictions, key=lambda item: item[0], reverse=True):
+        if not available:
+            break
+        best = max(sorted(available), key=lambda index: box_iou(prediction, ground_truth[index]))
+        if box_iou(prediction, ground_truth[best]) >= MATCH_IOU:
+            available.remove(best)
+            matched += 1
+    return matched
+
+
+def load_person_boxes(label_path, width, height):
+    """Use all eight action labels as person locations; keep source TXT intact."""
+    boxes = []
+    for line in label_path.read_text(encoding="utf-8-sig").splitlines():
+        if not line.strip():
+            continue
+        x, y, box_width, box_height = map(float, line.split()[1:])
+        boxes.append([
+            (x - box_width / 2) * width, (y - box_height / 2) * height,
+            (x + box_width / 2) * width, (y + box_height / 2) * height,
+        ])
+    return boxes
+
+
 def predict_people(sample):
-    """Save visual person detections; no engagement classification or metric."""
+    """Apply pretrained weights and measure recall of annotated person boxes."""
+    import platform
+    import torch
+    import ultralytics
     from ultralytics import YOLO
 
     weights = ROOT / "models" / "yolov8m.pt"
@@ -187,20 +230,61 @@ def predict_people(sample):
     )
     image_count = 0
     detection_count = 0
+    annotation_count = 0
+    matched_count = 0
+    expected_names = {image.name for image, _ in sample}
+    seen_names = set()
     for result in results:
+        name = Path(result.path).name
+        if name not in expected_names or name in seen_names:
+            raise ValueError(f"Unexpected or repeated prediction image: {name}")
+        seen_names.add(name)
+        height, width = result.orig_shape
+        ground_truth = load_person_boxes(EVALUATION_DIR / "labels" / f"{Path(name).stem}.txt", width, height)
+        predictions = list(zip(result.boxes.conf.cpu().tolist(), result.boxes.xyxy.cpu().tolist()))
+        matched_count += count_matches(predictions, ground_truth)
+        annotation_count += len(ground_truth)
         image_count += 1
         detection_count += len(result.boxes)
-    if image_count != len(sample):
-        raise ValueError(f"Expected {len(sample)} prediction images, got {image_count}.")
+    if seen_names != expected_names:
+        raise ValueError("The model did not process every image in the evaluation manifest.")
+    if annotation_count == 0:
+        raise ValueError("Cannot calculate annotated-person recall without any ground-truth boxes.")
     print(f"4. Processed {image_count} images; found {detection_count} person detections.", flush=True)
-    print("Images with predicted boxes: runs/yolov8m/", flush=True)
-    print("These detections do not measure student engagement or model accuracy.", flush=True)
+    recall = matched_count / annotation_count
+    report = {
+        "experiment": "yolov8m_person_localization_baseline_v1",
+        "data": f"{DATASET}, version {VERSION}; {EXPECTED_IMAGES} source images",
+        "evaluation": f"{image_count} fixed evaluation images, seed {SEED}; no local training or tuning",
+        "model": "COCO-pretrained YOLOv8m, person class only, no additional training",
+        "metric": {"name": "annotated_person_recall_at_iou_0_5", "value": round(recall, 6)},
+        "counts": {
+            "evaluation_images": image_count,
+            "annotated_people": annotation_count,
+            "matched_annotations": matched_count,
+            "missed_annotations": annotation_count - matched_count,
+            "person_predictions": detection_count,
+        },
+        "settings": {"confidence": 0.25, "nms_iou": 0.7, "match_iou": MATCH_IOU, "imgsz": 640, "device": "cpu"},
+        "evaluation_method": "All eight action classes treated as person locations only; confidence-descending one-to-one IoU matching",
+        "environment": {"python": platform.python_version(), "torch": torch.__version__, "ultralytics": ultralytics.__version__},
+        "weights_sha256": hashlib.sha256(weights.read_bytes()).hexdigest(),
+        "manifest_sha256": hashlib.sha256(MANIFEST.read_bytes()).hexdigest(),
+        "limitation": "Only 20 correlated classroom frames; person annotations may be incomplete and cover upper bodies. This measures localization of annotated people, not engagement or action recognition, and does not establish performance on exams. Overlap with COCO training data is unknown.",
+    }
+    report_path = ROOT / "reports" / "baseline_metrics.json"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    print(f"5. Annotated-person recall @ IoU 0.5: {matched_count}/{annotation_count} = {recall:.6f}", flush=True)
+    print("6. Saved reports/baseline_metrics.json; prediction images: runs/yolov8m/", flush=True)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--download", action="store_true", help="Download and extract the public Kaggle v1 dataset first.")
-    parser.add_argument("--predict", action="store_true", help="Run pretrained YOLOv8m on the fixed sample and save images with person boxes.")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--predict", action="store_true", help="Run the full baseline (also the default; kept for compatibility).")
+    mode.add_argument("--prepare-only", action="store_true", help="Only prepare the sample; skip inference and metric calculation.")
     args = parser.parse_args()
     try:
         if args.download:
@@ -212,7 +296,7 @@ def main():
         reserve_evaluation(sample, records)
         print("3. Created/loaded 20 evaluation-only images in data/evaluation/.", flush=True)
         print("Fixed selection and file hashes: data/evaluation_manifest.json", flush=True)
-        if args.predict:
+        if not args.prepare_only:
             predict_people(sample)
     except (OSError, ValueError, ImportError, RuntimeError, zipfile.BadZipFile) as error:
         print(f"Pipeline failed: {error}", file=sys.stderr)

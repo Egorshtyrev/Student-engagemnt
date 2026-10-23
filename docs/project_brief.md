@@ -23,10 +23,10 @@ the output.
 
 - Where the data may come from: the [Classroom Student Engagement Dataset on Kaggle](https://www.kaggle.com/datasets/mustafaxgm/classroom-student-engagement-dataset).
 - What we can access now: 481 classroom images with YOLO labels; 20 images are reserved for evaluation.
-- What still needs confirmation: whether the labels support a useful detection metric and whether classroom images represent exam conditions.
+- What still needs confirmation: how incomplete annotations affect evaluation and whether classroom images represent exam conditions.
 
 ## Three next actions
 
-1. Choose and calculate one metric for person detection.
-2. Save the measured result automatically to `reports/baseline_metrics.json`.
-3. Ask a teammate to repeat the run from a fresh clone using the README.
+1. Ask a teammate to reproduce the saved metric from a fresh clone using the README.
+2. Review missed detections and annotation limits with the instructor.
+3. Agree on whether the next experiment should improve person detection or recognize visible actions.
