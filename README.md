@@ -31,8 +31,10 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe src/baseline_pipeline.py --download
 ```
 
-The first run downloads dataset version 1 (about 123 MiB). Manual download and
-placement instructions are in [data/README.md](data/README.md).
+The first run downloads dataset version 1 (about 123 MiB). For manual download,
+extract the archive so the 481 JPG images are in `data/raw/dataset/images/`
+and matching TXT labels are in `data/raw/dataset/labels/`. Dataset background
+is in [data/README.md](data/README.md).
 After the data is in place, the repeatable preparation command is:
 
 ```powershell
