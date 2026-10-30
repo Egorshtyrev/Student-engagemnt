@@ -90,3 +90,8 @@ To check reproducibility, a teammate should use a fresh clone and environment,
 follow these instructions and confirm that the same 20 files pass validation
 and `reports/baseline_metrics.json` is created or updated. This teammate check
 has not yet been recorded; the saved report contains the measured local run.
+
+## Lab 03: acceptance decisions
+
+See [project decisions](docs/project_decisions.md) for the baseline decision,
+required behavior, acceptance check and planned failure responses.
