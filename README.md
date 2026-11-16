@@ -111,3 +111,10 @@ Windows PowerShell:
 
 Output: `reports/inference_demo.jsonl` — one normal record and one
 simulated-unavailable record, linked by `request_id`.
+
+
+## Lab 05
+
+The inference demo validates input requests against config/input_contract.json before running YOLOv8m. It checks input references, formats, dimensions, approved sources and preprocessing identifiers. Requests are assigned a combined status: pass, warning or error. Passing requests proceed to prediction, warnings are routed for review, and errors are rejected.
+
+The three validation scenarios are automatically demonstrated and saved in reports/validation_demo.jsonl. Unit tests are provided in tests/test_input_validation.py to check severity handling and prediction routing.
