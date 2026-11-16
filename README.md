@@ -95,3 +95,19 @@ has not yet been recorded; the saved report contains the measured local run.
 
 See [project decisions](docs/project_decisions.md) for the baseline decision,
 required behavior, acceptance check and planned failure responses.
+
+## Lab 04
+## Run the inference demo
+
+Images are read from `dataset/images/` (Kaggle "Classroom Student Engagement
+Dataset", v1). Requires `models/yolov8m.pt` — downloaded automatically on first run.
+
+macOS/Linux:
+    python3 src/inference_demo.py --input-ref dataset/images/<file>.jpg
+
+Windows PowerShell:
+    py src\inference_demo.py --input-ref dataset\images\<file>.jpg
+    # use `python` if `py` is not recognized
+
+Output: `reports/inference_demo.jsonl` — one normal record and one
+simulated-unavailable record, linked by `request_id`.

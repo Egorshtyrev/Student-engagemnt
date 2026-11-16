@@ -1,0 +1,12 @@
+
+{
+  "contract_version": "input-v2",
+  "model_package": "baseline-v1",
+  "transform_id": "yolov8-ultralytics-default-v1",
+  "allowed_formats": ["jpg", "jpeg", "png"],
+  "allowed_sources": ["camera-a", "camera-b"],
+  "minimum_width": 320,
+  "minimum_height": 240,
+  "warning_action": "route_for_review",
+  "error_action": "reject_input"
+}
