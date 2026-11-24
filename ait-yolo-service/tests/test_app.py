@@ -89,6 +89,44 @@ class CloudDemoTests(unittest.TestCase):
         self.assertEqual(records[0]["request_id"], "req-trace")
         self.assertEqual(records[0]["image"]["width"], 320)
 
+    def test_rejected_request_is_recorded_without_prediction(self) -> None:
+        self.request(
+            request_id="req-rejected-trace",
+            data=b"not an image",
+            filename="notes.txt",
+            content_type="text/plain",
+        )
+        records = [json.loads(line) for line in self.trace_path.read_text().splitlines()]
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0]["request_id"], "req-rejected-trace")
+        self.assertEqual(records[0]["action"], "reject_input")
+        self.assertFalse(records[0]["prediction_called"])
+        self.assertIsNone(records[0]["prediction"])
+        self.assertEqual(self.predict_calls, 0)
+
+    def test_new_app_keeps_existing_evidence(self) -> None:
+        self.request(request_id="req-before-replacement")
+        previous_evidence = self.trace_path.read_bytes()
+
+        with TestClient(create_app(self.trace_path)) as replacement:
+            health = replacement.get("/health")
+            self.assertEqual(health.status_code, 200)
+            self.assertFalse(health.json()["model_loaded"])
+            self.assertEqual(self.trace_path.read_bytes(), previous_evidence)
+            response = replacement.post(
+                "/predict",
+                data={"request_id": "req-after-replacement"},
+                files={"file": ("notes.txt", b"not an image", "text/plain")},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        records = [json.loads(line) for line in self.trace_path.read_text().splitlines()]
+        self.assertEqual(
+            [record["request_id"] for record in records],
+            ["req-before-replacement", "req-after-replacement"],
+        )
+        self.assertTrue(self.trace_path.read_bytes().startswith(previous_evidence))
+
 
 if __name__ == "__main__":
     unittest.main()
