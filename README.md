@@ -129,3 +129,9 @@ so replacing the container does not remove earlier records.
 See [container setup and checks](docs/container_service.md) for the build,
 tests, two requests from another computer, evidence check and replacement
 commands. `check_service.py` saves both API responses for the defense.
+
+Verified on the team's Ubuntu VM on 25 November 2026: all 8 tests passed
+inside Docker, the valid and rejected requests returned HTTP 200 and 400
+from another computer, and the journal checksum stayed the same after
+container replacement. The demonstration container is stopped; the image
+and evidence remain on the VM for the defense.

@@ -21,6 +21,16 @@ experiment or measure student engagement. A teacher still reviews results.
 
 Connect with the team's SSH key, then open the repository's service folder:
 
+On a fresh VM, first clone the Lab 07 branch:
+
+```bash
+git clone --branch lab07-container-service https://github.com/Egorshtyrev/Student-engagemnt.git ~/Student-engagemnt
+```
+
+If the repository is already present, use that checkout. The verified copy
+on the team's VM is in `~/Student-engagemnt/`; the earlier standalone Lab 06
+folder `~/ait-yolo-service/` is separate.
+
 ```bash
 cd ~/Student-engagemnt/ait-yolo-service
 docker --version
@@ -168,15 +178,37 @@ Completion requires the real container build and tests, successful requests
 from another computer, and preserved evidence after replacement. Unit tests
 alone do not prove cloud access or Docker persistence.
 
-Local checks on 25 November 2026 used Windows and Python 3.12: all five API
-tests and three Lab 05 tests passed, and `pip check` found no conflicts.
-The classroom JPEG reached real `yolo26n.pt` inference (HTTP 200); a text file
-was rejected before prediction (HTTP 400). After replacing the local Uvicorn
-process, `/health` answered and the two-record journal had the same SHA-256.
-Responses and restart output are saved locally in `ait-yolo-service/reports/`.
-Docker build, tests inside the image, VM requests and container replacement
-are still unverified: this computer has no Docker runtime and the VM SSH key
-has not been provided. These remain necessary to complete the Lab.
+Verified on 25 November 2026 on the team's Ubuntu 24.04 VM. Docker was
+initially absent; installing `docker.io` and `docker-buildx` as above fixed
+the setup. The installed versions are Docker 29.1.3 and Buildx 0.30.1.
+The API, image validator, dependencies and contract match the existing
+Lab 06 files on the VM byte for byte.
+
+| Check | Measured result |
+| --- | --- |
+| Build `student-engagement-service:1` | Passed |
+| API tests inside the image | 5 passed |
+| Existing Lab 05 tests inside the image, with source mounted read-only | 3 passed |
+| `pip check` inside the image | No broken requirements |
+| Image contents | Required API files present; `.env`, environments, weights and reports absent |
+| `/health` and `/docs` from the Windows computer | HTTP 200 |
+| Classroom JPEG, `lab07-cloud-20261125-valid` | HTTP 200, real `yolo26n.pt`, `prediction_called: true` |
+| Text file, `lab07-cloud-20261125-invalid` | HTTP 400, `reject_input`, `prediction_called: false` |
+| `/health` from Windows after container replacement | HTTP 200, `model_loaded: false` |
+| Journal after replacement | Same two records and identical SHA-256 |
+
+The container ID changed from `6074f6204d8a` to `128b3e9b12cb`, using the
+same image. The evidence SHA-256 before and after replacement was:
+
+```text
+0d54af758d550f4756b53e980fff13cd3493ee984baa5c3e976c9657611d6f5d
+```
+
+Full API responses, container IDs, logs and checksum output are saved in
+`ait-yolo-service/reports/`, outside Git. The JSONL evidence and image remain
+on the VM. The demonstration container was stopped after these checks.
+The local Windows tests and process-restart check also passed earlier;
+the results above are from the real container and direct network requests.
 
 When the demonstration is finished:
 
