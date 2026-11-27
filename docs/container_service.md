@@ -1,5 +1,9 @@
 # Lab 07: containerised inference service
 
+See the [cloud run screenshots](../Lab%2007%20result%20screenshot/README.md)
+captured on 27 November 2026 for the running container, real API responses
+and evidence persistence check.
+
 ## Service and container boundary
 
 This packages the existing Lab 06 API in `ait-yolo-service/`. Its routes stay

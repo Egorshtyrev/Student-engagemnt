@@ -135,3 +135,6 @@ inside Docker, the valid and rejected requests returned HTTP 200 and 400
 from another computer, and the journal checksum stayed the same after
 container replacement. The demonstration container is stopped; the image
 and evidence remain on the VM for the defense.
+
+[Cloud run screenshots](Lab%2007%20result%20screenshot/README.md) show the
+running container, tests, API responses and evidence after replacement.
