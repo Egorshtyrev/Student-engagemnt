@@ -118,3 +118,20 @@ simulated-unavailable record, linked by `request_id`.
 The inference demo validates input requests against config/input_contract.json before running YOLOv8m. It checks input references, formats, dimensions, approved sources and preprocessing identifiers. Requests are assigned a combined status: pass, warning or error. Passing requests proceed to prediction, warnings are routed for review, and errors are rejected.
 
 The three validation scenarios are automatically demonstrated and saved in reports/validation_demo.jsonl. Unit tests are provided in tests/test_input_validation.py to check severity handling and prediction routing.
+
+## Lab 07: containerised inference service
+
+The Lab 06 API in `ait-yolo-service/` is packaged as a Docker image. It keeps
+the same input checks, prediction model and JSON responses. Runtime settings
+come from `.env`; request evidence is saved in a mounted `reports/` directory
+so replacing the container does not remove earlier records.
+
+See [container setup and checks](docs/container_service.md) for the build,
+tests, two requests from another computer, evidence check and replacement
+commands. `check_service.py` saves both API responses for the defense.
+
+Verified on the team's Ubuntu VM on 25 November 2026: all 8 tests passed
+inside Docker, the valid and rejected requests returned HTTP 200 and 400
+from another computer, and the journal checksum stayed the same after
+container replacement. The demonstration container is stopped; the image
+and evidence remain on the VM for the defense.
