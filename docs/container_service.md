@@ -21,10 +21,10 @@ experiment or measure student engagement. A teacher still reviews results.
 
 Connect with the team's SSH key, then open the repository's service folder:
 
-On a fresh VM, first clone the Lab 07 branch:
+On a fresh VM, first clone the repository:
 
 ```bash
-git clone --branch lab07-container-service https://github.com/Egorshtyrev/Student-engagemnt.git ~/Student-engagemnt
+git clone https://github.com/Egorshtyrev/Student-engagemnt.git ~/Student-engagemnt
 ```
 
 If the repository is already present, use that checkout. The verified copy
